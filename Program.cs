@@ -19,6 +19,10 @@ builder.Services.AddControllers();
 //});
 
 
+// Set Render's required port
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://*:{port}");
+
 
 
 // 1. Add CORS policy
@@ -52,7 +56,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
 
 app.UseCors("AllowFirebaseOrigin");
 app.UseAuthorization();
